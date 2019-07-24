@@ -14,5 +14,7 @@ see fit.
 4. The details page should have a link to go back to the previous page, where the search
 results were displayed.
 
-
+fw_frontend.html : Here we can search the country name.
+fw_frontend_country.html : Here country details are displayed.
+fw_frontend.css : Is used for giving the template for the html document(i.e styling).
 
