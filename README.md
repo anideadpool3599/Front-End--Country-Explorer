@@ -6,7 +6,9 @@ RUN IT ON MOZILLA FIREFOX BROSWER.
 I have used javascript and CSS for this. Mozilla's Fetch API has been used to make the API call to the restcountries.eu site. 
 
 fw_frontend.html : This is the main page where you enter the country name and see the results.
+
 fw_frontend_country.html : After clicking on the country name we will be migrated to this page where the country details are displayed.Go back option is also created(i.e to go to the main page).
+
 fw_frontend.css : (Stylesheet)Is used for giving the template for the html document(i.e colors,margin,borders).
 
 Functional requirements:
