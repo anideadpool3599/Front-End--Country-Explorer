@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <script>
+            var countrydata;
+            function getCookie(cname) {     //Now we get the cookie name generated in the previous page.
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');      //decoding of cookie takes place.
+                for(var i = 0; i <ca.length; i++) {
+                  var c = ca[i];
+                  while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                  }
+                  if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                  }
+                }
+                return "";
+              }
+
+            function formatCountryData(){
+                var countrydetails = getCookie("country");    //here we are accessing the cookie(country). 
+
+                var JSONresult = JSON.parse(countrydetails);    //here JSON.parse() converts text to javascript object.
+                var htmlString = "";
+                htmlString += "<div class='divfullmargin15'><div class='card'>";
+                htmlString += "<div class='card_content'>";
+                htmlString += "<div class='card_title'>";
+                htmlString += "<a href='fw_frontend_country.html'>"    
+                htmlString += JSONresult.name;    //displays the name of country as hyperlink.
+                htmlString += "</a>"    
+                htmlString += "</div>";
+                htmlString += "<div class='card_text'>";
+                htmlString += "<img src='" + JSONresult.flag + "' width='200' height='auto'>";    //displays country flag
+                htmlString += "<div class='card_title'>";
+                htmlString += "<h10>Capital:</h10>" + JSONresult.capital;   //displays captial
+                htmlString += "</div>";
+                htmlString += "<div class='card_title'>";
+                htmlString += "<h10>Timezones:</h10>" + JSONresult.timezones;   //displays timezones 
+                htmlString += "</div>";
+                htmlString += "<div class='card_title'>";
+                htmlString += "<h10>Neighbouring Countries:</h10>" + JSONresult.borders;    //displays neighbouring countries.
+                htmlString += "</div>";
+                htmlString += "<div class='card_title'>";
+                htmlString += "<h10>Calling Code:</h10>" + JSONresult.callingCodes;  //displays Calling codes of that country. 
+                htmlString += "</div>";
+                htmlString += "</div>";
+                htmlString += "</div>";
+                htmlString += "</div>";
+                htmlString += "</div>";
+                document.getElementById("divresults").innerHTML = htmlString;
+            }
+
+        </script>
+        <link href="fw_frontend.css" rel="stylesheet"/>   <!--Refers the css stylesheet-->
+    </head>
+    <body onload="formatCountryData()">   <!--when go back hyperlink is clicked , it accesses the history to the original page.-->
+        <div class="divfull">
+            <a href="#" onclick="javascript:history.back(-1)">Go Back</a>   
+        </div>
+        <div id="divresults" class="divfull">
+
+        </div>
+    </body>
+</html>

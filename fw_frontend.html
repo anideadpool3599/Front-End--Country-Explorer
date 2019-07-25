@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <script>
+            var countrydata;
+            function getCountries(){
+                var countryname = document.getElementById("txtcountry").value;      //intialise a var countryname,fetch the element with id="txtcountry" and takes it value
+                document.getElementById("divresults").innerHTML = "";
+                if(countryname == ""){      // if the countryname is not specified then its sends the below alert.
+                    alert("Please enter country name in part or full");
+                    return;
+                }  
+                try
+                {
+                    fetch('https://restcountries.eu/rest/v2/name/' + countryname)   //here we fetch the data from the given api.
+                    .then(function(response) {
+                        return response.json();     // what json does it converts text to javascript object.
+                    })
+                    .then(function(JSONresult) {
+            
+                        if(JSONresult.status != null){
+                            if(JSONresult.status == 404){     //if the country your searching for isnt present in the data extracted, then following alert is sent.
+                                alert("No data was retrieved. Please try a different name.");
+                            }
+                        }
+                        else{
+                            var htmlString = "";        // from here we use html statements in javascript.
+                            console.log(JSONresult.length);
+                            countrydata = JSONresult;
+                            for(var x= 0 ; x< JSONresult.length;x++){       //iteratively goes through all the data.
+                                console.log(JSONresult[x]);
+                                //console.log(JSONresult[x].flag);
+                                htmlString += "<div class='divfourthleftmargin15'><div class='card'>";
+                                htmlString += "<div class='card_content'>";
+                                htmlString += "<div class='card_title'>";
+                                htmlString += "<a href='#' onclick='loadCountry(\"" + JSONresult[x].name + "\")'>";   
+                                htmlString += JSONresult[x].name;       //  name of the country is displayed
+                                htmlString += "</a>";    
+                                htmlString += "</div>";
+                                htmlString += "<div class='card_text'>";
+                                htmlString += "<img src='" + JSONresult[x].flag + "' width='200' height='auto'>";      //here the flag image is appended to the window where the name was displayed.
+                                htmlString += "</div>";
+                                htmlString += "</div>";
+                                htmlString += "</div>";
+                                htmlString += "</div>";
+                            }
+                            document.getElementById("divresults").innerHTML = htmlString;
+                        }
+                    });
+                }
+                catch{
+                    alert("No data was retrieved. Please check network connection.");       // network problem occurs then cant fetch data.
+                
+                }   
+            }
+            
+            function loadCountry(countryname){
+                for(var x= 0 ; x < countrydata.length; x++){
+                    if(countryname == countrydata[x].name){
+                        document.cookie = "country=" + JSON.stringify(countrydata[x]);      //Here we generate a cookie which will be used in accessing the next page i.e country details.
+                        window.location.href = "fw_frontend_country.html";
+                        //return;
+                    }
+                }
+            }
+            //WHEN USER CLICKS ON BACK FROM DETAILS 
+            //WE WILL CHECK IF COUNTRY NAME IS ALREADY AND RELOAD THOSE RESULTS
+            function reloadCountries(){
+                var countryname = document.getElementById("txtcountry").value;
+                    if(countryname != ""){
+                        getCountries();
+                    }
+            }
+        </script>
+        <link href="fw_frontend.css" rel="stylesheet"/>     <!--Refers the css stylesheet-->
+    </head>
+    <body onload="reloadCountries()">       <!--Here this runs when we refresh or reload the page-->
+        <div class="divfull">
+            <div class="divhalf">
+                <div class="divthirdleft">
+                    Enter a country name
+                </div>
+                <div class="divthirdleft">
+                    <input type="text" name="txtcountry" id="txtcountry" length="50">
+                </div>
+                <div class="divthirdright">
+                    <button name="btnsubmit" id="btnsubmit" onclick="getCountries()">Search</button>
+                </div>
+            </div>
+        </div>
+        <div id="divresults" class="divfull">
+
+        </div>
+    </body>
+</html>
